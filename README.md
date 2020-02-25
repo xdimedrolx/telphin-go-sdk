@@ -23,7 +23,6 @@ import "github.com/xdimedrolx/telphin-go-sdk/telphin"
 
 ## Usage
 
-### Simple Example:
 ```go
 TODO
 ```
