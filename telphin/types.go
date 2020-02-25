@@ -259,6 +259,15 @@ func (c *CallHistory) HasAnsweredExtensionPhoneTypeCdr() bool {
 	return false
 }
 
+func (c *CallHistory) HasExtensionPhoneTypeWithRecords() bool {
+	for _, cdr := range *c.Cdr {
+		if cdr.ExtensionType == ExtensionTypePhone && cdr.RecordUUID != nil {
+			return true
+		}
+	}
+	return false
+}
+
 // imeplement Marshaler und Unmarshalere interface
 func (j *JSONTime) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
