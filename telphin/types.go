@@ -16,8 +16,6 @@ const (
 	Host = "https://apiproxy.telphin.ru"
 	// Host points to the storage
 	HostStorage = "https://storage.telphin.ru"
-	// Websocket server
-	WsServer = "wss://sipproxy.telphin.ru"
 	// Websocket host
 	WsHost = "sipproxy.telphin.ru"
 
