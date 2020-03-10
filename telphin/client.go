@@ -7,10 +7,13 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"mime"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"time"
+
+	mem "github.com/spf13/afero/mem"
 )
 
 // NewClient returns new client struct
@@ -152,9 +155,20 @@ func (c *Client) Send(req *http.Request, v interface{}) error {
 		return nil
 	}
 
+	if f, ok := v.(*mem.File); ok {
+		_, params, err := mime.ParseMediaType(resp.Header.Get("Content-Disposition"))
+		if err != nil {
+			return err
+		}
+		mem.ChangeFileName(f.Data(), params["filename"])
+		_, err = io.Copy(f, resp.Body)
+		f.Seek(0, 0)
+		return err
+	}
+
 	if w, ok := v.(io.Writer); ok {
-		io.Copy(w, resp.Body)
-		return nil
+		_, err = io.Copy(w, resp.Body)
+		return err
 	}
 
 	return json.NewDecoder(resp.Body).Decode(v)

@@ -32,7 +32,7 @@ func TestGetAccessTokenWhenCredentialsIsValid(t *testing.T) {
 
 	if assert.NoError(t, err) {
 		assert.NotNil(t, token)
-		assert.Equal(t, "123123", token.Token)
+		assert.Equal(t, "59sBiAq3LOTp40CGQAoc6EqQpjwSTdr0", token.Token)
 	}
 }
 
