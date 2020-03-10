@@ -202,10 +202,18 @@ func (c *Client) log(r *http.Request, resp *http.Response) {
 			}
 		}
 		if resp != nil {
-			respDump, _ := httputil.DumpResponse(resp, true)
-			fields["response"] = map[string]interface{}{
-				"code": resp.StatusCode,
-				"dump": string(respDump),
+			switch resp.Header.Get("Content-Type") {
+			case "text/html":
+			case "application/json":
+				respDump, _ := httputil.DumpResponse(resp, true)
+				fields["response"] = map[string]interface{}{
+					"code": resp.StatusCode,
+					"dump": string(respDump),
+				}
+			default:
+				fields["response"] = map[string]interface{}{
+					"code": resp.StatusCode,
+				}
 			}
 		}
 
