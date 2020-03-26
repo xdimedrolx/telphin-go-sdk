@@ -49,9 +49,9 @@ func (c *Client) GetExtension(clientID string, extensionID uint16) (*Extension, 
 }
 
 // Endpoint: POST /client/{client_id}/extension
-func (c *Client) CreateExtension(clientID string, extReq ExtensionCreateRequest) (*Extension, error) {
+func (c *Client) CreateExtension(clientID string, extensionCreateRequest ExtensionCreateRequest) (*Extension, error) {
 	extension := &Extension{}
-	req, err := c.NewRequest("POST", fmt.Sprintf("%s/api/ver1.0/client/%s/extension/", c.Host, clientID), extReq)
+	req, err := c.NewRequest("POST", fmt.Sprintf("%s/api/ver1.0/client/%s/extension/", c.Host, clientID), extensionCreateRequest)
 	if err != nil {
 		return extension, err
 	}
@@ -71,4 +71,16 @@ func (c *Client) DeleteExtension(clientID string, extensionID uint32) error {
 
 	err = c.SendWithAuth(req, nil)
 	return err
+}
+
+// Endpoint: POST /extension/{extension_id}/callback/
+func (c *Client) CreateCallback(extensionID uint32, callback CallbackRequest) (*Callback, error) {
+	req, err := c.NewRequest("POST", fmt.Sprintf("%s/api/ver1.0/extension/%s/callback", c.Host, extensionID), callback)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := &Callback{}
+	err = c.SendWithAuth(req, resp)
+	return resp, err
 }

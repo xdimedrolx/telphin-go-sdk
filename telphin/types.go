@@ -215,6 +215,29 @@ type (
 		Method    string `json:"method"`
 		EventType string `json:"event_type"`
 	}
+
+	CallbackRequest struct {
+		SrcNum                 []string `json:"src_num"`
+		DstNum                 string   `json:"dst_num"`
+		AllowPublicTransfer    bool     `json:"allow_public_transfer"`
+		CallDuration           *int     `json:"call_duration"`
+		AnnounceSoundID        *int     `json:"announce_sound_id"`
+		DstAnnounceSoundID     *int     `json:"dst_announce_sound_id"`
+		CallerIDName           *string  `json:"caller_id_name"`
+		CallerIDNumber         *string  `json:"caller_id_number"`
+		DstAni                 *string  `json:"dst_ani"`
+		DstDtmf                *string  `json:"dst_dtmf"`
+		SrcCallerIDName        *string  `json:"src_caller_id_name"`
+		SrcCallerIDNumber      *string  `json:"src_caller_id_number"`
+		TransferAfterDstHangup *string  `json:"transfer_after_dst_hangup"`
+		TransferAfterSrcHangup *string  `json:"transfer_after_src_hangup"`
+		WaintForPickup         *int     `json:"wait_for_pickup"`
+	}
+
+	Callback struct {
+		CallApiID string `json:"call_api_id"`
+		CallID    string `json:"call_id"`
+	}
 )
 
 func (e Extension) Number() (*int, error) {
