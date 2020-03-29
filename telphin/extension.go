@@ -75,7 +75,7 @@ func (c *Client) DeleteExtension(clientID string, extensionID uint32) error {
 
 // Endpoint: POST /extension/{extension_id}/callback/
 func (c *Client) CreateCallback(extensionID uint32, callback CallbackRequest) (*Callback, error) {
-	req, err := c.NewRequest("POST", fmt.Sprintf("%s/api/ver1.0/extension/%s/callback", c.Host, extensionID), callback)
+	req, err := c.NewRequest("POST", fmt.Sprintf("%s/api/ver1.0/extension/%d/callback", c.Host, extensionID), callback)
 	if err != nil {
 		return nil, err
 	}
