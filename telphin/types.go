@@ -240,9 +240,9 @@ type (
 	}
 
 	QualityRateRequest struct {
-		StartDatetime *string `url:"start_datetime"`
-		EndDatetime   *string `url:"end_datetime"`
-		ExtensionID   *uint32 `url:"extension_id"`
+		StartDatetime *time.Time `url:"start_datetime"`
+		EndDatetime   *time.Time `url:"end_datetime"`
+		ExtensionID   *uint32    `url:"extension_id"`
 	}
 
 	QualityRate struct {
