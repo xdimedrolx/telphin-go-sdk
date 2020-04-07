@@ -238,6 +238,22 @@ type (
 		CallApiID string `json:"call_api_id"`
 		CallID    string `json:"call_id"`
 	}
+
+	QualityRateRequest struct {
+		StartDatetime *string `url:"start_datetime"`
+		EndDatetime   *string `url:"end_datetime"`
+		ExtensionID   *uint32 `url:"extension_id"`
+	}
+
+	QualityRate struct {
+		CallUUID    string   `json:"call_uuid"`
+		Datetime    JSONTime `json:"datetime"`
+		ExtensionID uint32   `json:"extension_id"`
+		ClientID    uint32   `json:"client_id"`
+		ID          uint32   `json:"id"`
+		MaxRate     uint16   `json:"max_rate"`
+		Rate        uint16   `json:"rate"`
+	}
 )
 
 func (e Extension) Number() (*int, error) {
