@@ -231,7 +231,7 @@ type (
 		SrcCallerIDNumber      *string  `json:"src_caller_id_number"`
 		TransferAfterDstHangup *string  `json:"transfer_after_dst_hangup"`
 		TransferAfterSrcHangup *string  `json:"transfer_after_src_hangup"`
-		WaintForPickup         *int     `json:"wait_for_pickup"`
+		WaitForPickup          *int     `json:"wait_for_pickup"`
 	}
 
 	Callback struct {
