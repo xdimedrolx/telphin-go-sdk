@@ -1,6 +1,7 @@
 package telphin
 
 import (
+	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/suite"
 	gock "gopkg.in/h2non/gock.v1"
 )
@@ -24,6 +25,7 @@ func (s *BaseSuite) SetupTest() {
 
 func (s *BaseSuite) SetupSuite() {
 	s.client, _ = NewClient("clientId", "secret", Host)
+	s.client.SetLogger(WrapLogrus(logrus.New()))
 }
 
 func (s *BaseSuite) TearDownTest() {

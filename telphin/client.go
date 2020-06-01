@@ -190,25 +190,26 @@ func (c *Client) NewRequest(method, url string, payload interface{}) (*http.Requ
 }
 
 // log will dump request and response
-func (c *Client) log(r *http.Request, resp *http.Response) {
+func (c *Client) log(req *http.Request, resp *http.Response) {
 	if c.Logger != nil {
 		fields := make(map[string]interface{})
 
-		if r != nil {
+		if req != nil {
+			reqRaw, _ := httputil.DumpRequest(req, true)
 			fields["request"] = map[string]interface{}{
-				"method": r.Method,
-				"url":    r.URL.String(),
-				"data":   r.Form.Encode(), // TODO: data is always empty
+				"method": req.Method,
+				"url":    req.URL.String(),
+				"raw":    string(reqRaw), // TODO: data is always empty
 			}
 		}
 		if resp != nil {
 			switch resp.Header.Get("Content-Type") {
 			case "text/html":
 			case "application/json":
-				respDump, _ := httputil.DumpResponse(resp, true)
+				respRaw, _ := httputil.DumpResponse(resp, true)
 				fields["response"] = map[string]interface{}{
 					"code": resp.StatusCode,
-					"dump": string(respDump),
+					"raw":  string(respRaw),
 				}
 			default:
 				fields["response"] = map[string]interface{}{
