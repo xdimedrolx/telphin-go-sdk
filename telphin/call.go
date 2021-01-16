@@ -17,10 +17,13 @@ func (c *Client) GetCallHistories(clientID string, callHistoryRequest CallHistor
 	v, _ := query.Values(callHistoryRequest)
 	req.URL.RawQuery = v.Encode()
 
-	err = c.SendWithAuth(req, histories)
-	return histories, err
+	if err = c.SendWithAuth(req, histories); err != nil {
+		return nil, err
+	}
+	return histories, nil
 }
 
+// Endpoint: GET /client/{client_id}/call_history/{callId}
 func (c *Client) GetCallHistory(clientID string, callId string) (*CallHistory, error) {
 	call := &CallHistory{}
 
@@ -29,6 +32,8 @@ func (c *Client) GetCallHistory(clientID string, callId string) (*CallHistory, e
 		return call, err
 	}
 
-	err = c.SendWithAuth(req, call)
-	return call, err
+	if err = c.SendWithAuth(req, call); err != nil {
+		return nil, err
+	}
+	return call, nil
 }

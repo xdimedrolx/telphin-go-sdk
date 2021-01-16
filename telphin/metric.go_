@@ -1,0 +1,72 @@
+package telphin
+
+import (
+	"net/http"
+	"sync"
+)
+
+const (
+	HTTP MetricType = "http"
+)
+
+type MetricType string
+
+var AvailableMetricTypes = []MetricType{HTTP}
+
+type Metric interface {
+	Type() string
+}
+
+type HttpMetric struct {
+	Error        error  `json:"error,omitempty"`
+	Duration     int64  `json:"duration"`
+	ResourcePath string `json:"resourcePath"`
+	Status       string `json:"status,omitempty"`
+	StatusCode   int    `json:"statusCode,omitempty"`
+}
+
+func (hm *HttpMetric) Type() string {
+	return string(HTTP)
+}
+
+type Process func(metric Metric) interface{}
+
+type MetricPublisher struct {
+	SubscriberMap map[string][]MetricSubscriber
+	mux           sync.Mutex
+}
+
+type MetricSubscriber struct {
+	Process Process
+}
+
+func (s *MetricSubscriber) Register(metricType MetricType) {
+	metricPublisher.mux.Lock()
+	if metricPublisher.SubscriberMap == nil {
+		metricPublisher.SubscriberMap = make(map[string][]MetricSubscriber)
+	}
+	subs := metricPublisher.SubscriberMap[string(metricType)]
+	subs = append(subs, *s)
+	metricPublisher.SubscriberMap[string(metricType)] = subs
+	metricPublisher.mux.Unlock()
+}
+
+func (mp *MetricPublisher) publish(metric Metric) {
+	for _, sub := range metricPublisher.SubscriberMap[metric.Type()] {
+		if sub.Process != nil {
+			m := metric //give copy of the object for all subs
+			sub.Process(m)
+		}
+	}
+}
+
+func buildHttpMetric(resourcePath string, response *http.Response, err error, duration int64) *HttpMetric {
+	metric := &HttpMetric{
+		Error:        err,
+		Duration:     duration,
+		ResourcePath: resourcePath,
+		Status:       response.Status,
+		StatusCode:   response.StatusCode,
+	}
+	return metric
+}

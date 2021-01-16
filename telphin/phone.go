@@ -10,8 +10,5 @@ func (c *Client) UpdatePhone(extensionID uint32, phoneProps PhoneProperties) err
 	}
 
 	newPhoneProps := &PhoneProperties{}
-	if err = c.SendWithAuth(req, newPhoneProps); err != nil {
-		return err
-	}
-	return nil
+	return c.SendWithAuth(req, newPhoneProps)
 }

@@ -14,8 +14,10 @@ func (c *Client) GetRecordStorageUrl(clientID string, recordUUID string) (*Recor
 	}
 
 	record := &RecordStorageUrl{}
-	err = c.SendWithAuth(req, record)
-	return record, err
+	if err = c.SendWithAuth(req, record); err != nil {
+		return nil, err
+	}
+	return record, nil
 }
 
 // Endpoint: GET /client/{client_id}/record/{record_uuid}
@@ -26,6 +28,8 @@ func (c *Client) GetRecord(clientID string, recordUUID string) (*mem.File, error
 	}
 
 	file := mem.NewFileHandle(mem.CreateFile("record.mp3"))
-	err = c.SendWithAuth(req, file)
-	return file, err
+	if err = c.SendWithAuth(req, file); err != nil {
+		return nil, err
+	}
+	return file, nil
 }

@@ -12,7 +12,7 @@ func (c *Client) GetExtensionAni(extensionID uint16) (*Ani, error) {
 	}
 
 	if err = c.SendWithAuth(req, ani); err != nil {
-		return ani, err
+		return nil, err
 	}
 	return ani, nil
 }
@@ -31,7 +31,7 @@ func (c *Client) SetExtensionAni(extensionID uint32, aniNumber string) (*Ani, er
 	}
 
 	if err = c.SendWithAuth(req, ani); err != nil {
-		return ani, err
+		return nil, err
 	}
 	return ani, nil
 }

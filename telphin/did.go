@@ -11,7 +11,7 @@ func (c *Client) GetAllDID(clientID string) (*[]Did, error) {
 	}
 
 	if err = c.SendWithAuth(req, dids); err != nil {
-		return dids, err
+		return nil, err
 	}
 	return dids, nil
 }
