@@ -254,6 +254,23 @@ type (
 		MaxRate     uint16   `json:"max_rate"`
 		Rate        uint16   `json:"rate"`
 	}
+
+	WebhookEvent struct {
+		CallID          string
+		CallSubID       string
+		CallAPIID       string
+		ClientCallID    *string
+		Direction       string
+		Type            string
+		NumberTo        string
+		NumberFrom      string
+		ExtensionIDFrom *uint32
+		ExtensionIDTo   *uint32
+		Time            time.Time
+		RecordID        *string
+		Status          string
+		Bridged         *bool
+	}
 )
 
 func (e Extension) Number() (*int, error) {
