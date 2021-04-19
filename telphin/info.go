@@ -6,5 +6,5 @@ func (c *Client) WsHost() string {
 
 // WsServers is WebSocket URIs to connect to.
 func (c *Client) WsServers() []string {
-	return []string{"wss://sipproxy.telphin.ru", "wss://pbx.telphin.ru"}
+	return []string{"wss://sipproxy.telphin.ru", "wss://office.telphin.ru", "wss://pbx.telphin.ru"}
 }
