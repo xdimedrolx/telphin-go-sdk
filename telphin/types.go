@@ -77,6 +77,11 @@ const (
 	ExtensionTypeQueue = "queue"
 )
 
+const (
+	OrderDesc = "desc"
+	OrderAsc  = "asc"
+)
+
 var extensionNumberRegexp = regexp.MustCompile(`\d+\*(\d+)`)
 var TelphinStorageHostRegexp = regexp.MustCompile(`^` + HostStorage)
 
@@ -253,6 +258,19 @@ type (
 		ID          uint32   `json:"id"`
 		MaxRate     uint16   `json:"max_rate"`
 		Rate        uint16   `json:"rate"`
+	}
+
+	RecordsRequest struct {
+		StartDatetime string  `url:"start_datetime"`
+		EndDatetime   string  `url:"end_datetime"`
+		PerPage       uint32  `url:"per_page"`
+		Page          uint32  `url:"page"`
+		Order         *string `url:"order"`
+	}
+
+	RecordInfo struct {
+		CallUUID   string `json:"call_uuid"`
+		RecordUUID string `json:"record_uuid"`
 	}
 )
 

@@ -49,3 +49,52 @@ func (suite *RecordSuite) TestGetRecordSuccessful() {
 		suite.Equal(fileData, content)
 	}
 }
+
+func (suite *RecordSuite) TestGetRecordsByPeriodSuccessful() {
+	gock.New(Host).
+		Get("/api/ver1.0/client/@me/record/").
+		MatchParam("page", "1").
+		MatchParam("per_page", "3").
+		MatchParam("order", "asc").
+		MatchParam("start_datetime", "2021-01-01 00:00:00").
+		MatchParam("end_datetime", "2021-01-01 01:00:00").
+		Reply(200).
+		JSON(getTestData(suite.T(), "get_records_200.json"))
+
+	order := OrderAsc
+	query := RecordsRequest{
+		Page:          1,
+		PerPage:       3,
+		Order:         &order,
+		StartDatetime: "2021-01-01 00:00:00",
+		EndDatetime:   "2021-01-01 01:00:00",
+	}
+
+	records, err := suite.client.GetRecords("@me", query)
+
+	if suite.NoError(err) {
+		suite.Len(*records, 3)
+	}
+}
+
+func (suite *RecordSuite) TestDeleteRecordSuccessful() {
+	gock.New(Host).
+		Delete("/api/ver1.0/client/@me/record/").
+		Reply(204)
+
+	err := suite.client.DeleteRecord("@me", "609560-a55c44ab973a4641a30b85236ae57a41")
+
+	suite.NoError(err)
+}
+
+func (suite *RecordSuite) TestDeleteRecordWhenItDoesNotFound() {
+	gock.New(Host).
+		Delete("/api/ver1.0/client/@me/record/").
+		Reply(404).
+		JSON(getTestData(suite.T(), "delete_record_404.json"))
+
+	err := suite.client.DeleteRecord("@me", "609560-a55c44ab973a4641a30b85236ae57a41")
+
+	suite.Error(err)
+	suite.Equal(404, err.(*ErrorResponse).Code)
+}
