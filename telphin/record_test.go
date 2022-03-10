@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/gobuffalo/suite"
+	"github.com/stretchr/testify/suite"
 	gock "gopkg.in/h2non/gock.v1"
 )
 
