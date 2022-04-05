@@ -272,6 +272,20 @@ type (
 		CallUUID   string `json:"call_uuid"`
 		RecordUUID string `json:"record_uuid"`
 	}
+
+	SoundsRequest struct {
+		Id      []uint32 `url:"id"`
+		OwnOnly *bool    `url:"own_only"`
+		Title   []string `url:"title"`
+	}
+
+	Sound struct {
+		DealerID uint32 `json:"dealer_id"`
+		ID       uint32 `json:"id"`
+		ClientID uint32 `json:"client_id"`
+		Title    string `json:"title"`
+		Filename string `json:"filename"`
+	}
 )
 
 func (e Extension) Number() (*int, error) {
