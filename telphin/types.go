@@ -13,7 +13,7 @@ import (
 
 const (
 	// Host points to the API
-	Host = "https://apiproxy.telphin.ru"
+	Host = "https://altapi.telphin.ru"
 	// Host points to the storage
 	HostStorage = "https://storage.telphin.ru"
 	// Websocket host
